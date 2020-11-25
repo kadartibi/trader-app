@@ -67,7 +67,7 @@ def list_sniped_player(min_price, buy_now):
         set_buy_now_price(buy_now)
         list_player()
     except NoSuchElementException:
-        click_back_button()
+        click_back_button(2)
 
 
 def click_list_on_transfer_market():
@@ -100,4 +100,3 @@ def list_player():
                1.10)
     pg.click()
     click_back_button(2)
-
