@@ -71,7 +71,7 @@ def check_result(min_price, max_price):
         click_back_button(0.7)
     except NoSuchElementException:
         print("Result found")
-        snipe_player(0.1, min_price, max_price)
+        snipe_player(0.12, min_price, max_price)
 
 def reset_min_bid_price():
     bid_price_field = driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[2]/input")
