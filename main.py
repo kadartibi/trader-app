@@ -45,20 +45,20 @@ def click_search(movement_time):
 
 
 def snipe_player(snipe_time):
-    time.sleep(0.2)
+    time.sleep(0.15)
     try:
         print("Trying to snipe player")
         buy_now = driver.find_element_by_class_name("buyButton")
         move_mouse(buy_now.location.get("x"), buy_now.location.get("y"), snipe_time)
         pg.click()
         print("Snipe clicked")
-        time.sleep(0.1)
+        time.sleep(0.15)
         pg.keyDown("enter")
         pg.keyUp("enter")
         print("enter pushed")
-        time.sleep(3)
+        time.sleep(1.33)
         print("sleep waited try to list")
-        list_sniped_player("1100", "1300")
+        list_sniped_player("1100", "1400")
     except NoSuchElementException:
         print("Snipe not successful")
         click_back_button(0.9)
@@ -67,16 +67,17 @@ def snipe_player(snipe_time):
 def check_result():
     try:
         driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div/section/div/div[2]/div/span")
-        click_back_button(1.3)
+        click_back_button(0.7)
     except NoSuchElementException:
         print("Result found")
-        snipe_player(0.2)
+        snipe_player(0.11)
 
 def reset_min_bid_price():
     bid_price_field = driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[2]/input")
     move_mouse(bid_price_field.location.get("x"), bid_price_field.location.get("y"), 1)
     pg.click()
     pg.write("0")
+
 # send_to_transfer_list = driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[8]")
 #LIST PLAYER
 def list_sniped_player(min_price, buy_now):
@@ -89,6 +90,7 @@ def list_sniped_player(min_price, buy_now):
         set_buy_now_price(buy_now)
         list_player()
         print("player listed")
+        click_back_button(1)
     except NoSuchElementException:
         print("cant list item")
         click_back_button(2)
