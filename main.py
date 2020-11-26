@@ -44,7 +44,7 @@ def click_search(movement_time):
     print("Search clicked")
 
 
-def snipe_player(snipe_time):
+def snipe_player(snipe_time, min_price, max_price):
     time.sleep(0.15)
     try:
         print("Trying to snipe player")
@@ -58,19 +58,19 @@ def snipe_player(snipe_time):
         print("enter pushed")
         time.sleep(1.33)
         print("sleep waited try to list")
-        list_sniped_player("1100", "1400")
+        list_sniped_player(min_price, max_price)
     except NoSuchElementException:
         print("Snipe not successful")
         click_back_button(0.9)
 
 
-def check_result():
+def check_result(min_price, max_price):
     try:
         driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div/section/div/div[2]/div/span")
         click_back_button(0.7)
     except NoSuchElementException:
         print("Result found")
-        snipe_player(0.11)
+        snipe_player(0.11, min_price, max_price)
 
 def reset_min_bid_price():
     bid_price_field = driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[2]/input")
@@ -138,11 +138,19 @@ def search():
     increase_min_bid_price(0.5)
     click_search(0.4)
 
-def try_to_buy_player(times):
+def try_to_buy_player(times, min_price, max_price):
     for i in range(0, times):
         search()
-        check_result()
+        check_result(min_price, max_price)
         if i % 8 == 0:
             reset_min_bid_price()
 
-try_to_buy_player(20)
+def start_search():
+    number_of_searches = input("Amount of searches: ")
+    min_price = input("Minimum price: ")
+    max_price = input("Maximum price: ")
+    time.sleep(10)
+    try_to_buy_player(int(number_of_searches), str(min_price),str(max_price))
+
+start_search()
+
