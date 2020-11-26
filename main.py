@@ -4,6 +4,7 @@ import pyautogui as pg
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+import random as r
 
 # Accessing open browser
 chrome_options = Options()
@@ -15,7 +16,7 @@ time.sleep(5)
 
 #Button and mouse movement things
 def move_mouse(x, y, sec):
-    pg.moveTo(x + 10, y + 100, sec)
+    pg.moveTo(x + r.randint(10, 25), y + 100, sec)
 
 
 def click_back_button(movement_time):
@@ -52,7 +53,7 @@ def snipe_player(snipe_time, min_price, max_price):
         move_mouse(buy_now.location.get("x"), buy_now.location.get("y"), snipe_time)
         pg.click()
         print("Snipe clicked")
-        time.sleep(0.15)
+        time.sleep(0.03)
         pg.keyDown("enter")
         pg.keyUp("enter")
         print("enter pushed")
@@ -70,11 +71,11 @@ def check_result(min_price, max_price):
         click_back_button(0.7)
     except NoSuchElementException:
         print("Result found")
-        snipe_player(0.11, min_price, max_price)
+        snipe_player(0.1, min_price, max_price)
 
 def reset_min_bid_price():
     bid_price_field = driver.find_element_by_xpath("/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[2]/div[2]/input")
-    move_mouse(bid_price_field.location.get("x"), bid_price_field.location.get("y"), 1)
+    move_mouse(bid_price_field.location.get("x"), bid_price_field.location.get("y"), r.uniform(0.5, 1.1))
     pg.click()
     pg.write("0")
 
@@ -90,7 +91,7 @@ def list_sniped_player(min_price, buy_now):
         set_buy_now_price(buy_now)
         list_player()
         print("player listed")
-        click_back_button(1)
+        click_back_button(r.uniform(0.6, 1.0))
     except NoSuchElementException:
         print("cant list item")
         click_back_button(2)
@@ -99,7 +100,7 @@ def list_sniped_player(min_price, buy_now):
 def click_list_on_transfer_market():
     list_on_transfer_market = driver.find_element_by_xpath(
         "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/div[1]/button")
-    move_mouse(list_on_transfer_market.location.get("x"), list_on_transfer_market.location.get("y"), 1.3)
+    move_mouse(list_on_transfer_market.location.get("x"), list_on_transfer_market.location.get("y"), r.uniform(0.6, 1.2))
     pg.click()
     time.sleep(0.71)
 
@@ -107,18 +108,18 @@ def click_list_on_transfer_market():
 def set_min_price(min_price):
     listing_min_price = driver.find_element_by_xpath(
         "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/div[2]/div[2]/div[2]/input")
-    move_mouse(listing_min_price.location.get("x"), listing_min_price.location.get("y"), 0.8)
+    move_mouse(listing_min_price.location.get("x"), listing_min_price.location.get("y"), r.uniform(0.3, 0.8))
     pg.click()
-    pg.write(min_price, interval=0.27)
+    pg.write(min_price, interval=r.uniform(0.1, 0.3))
     time.sleep(0.2)
 
 
 def set_buy_now_price(buy_now):
     listing_buy_now_price = driver.find_element_by_xpath(
         "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[2]/input")
-    move_mouse(listing_buy_now_price.location.get("x"), listing_buy_now_price.location.get("y"), 0.46)
+    move_mouse(listing_buy_now_price.location.get("x"), listing_buy_now_price.location.get("y"), r.uniform(0.2, 0.5))
     pg.click()
-    pg.write(buy_now, interval=0.24)
+    pg.write(buy_now, interval=r.uniform(0.1, 0.3))
     time.sleep(0.31)
 
 
@@ -126,7 +127,7 @@ def list_player():
     list_on_transfer_market_button = driver.find_element_by_xpath(
         "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/div[2]/button")
     move_mouse(list_on_transfer_market_button.location.get("x"), list_on_transfer_market_button.location.get("y"),
-               0.3)
+               r.uniform(0.2, 0.6))
     pg.click()
 
 # TODO: open browser with a button: chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\selenum\ChromeProfile"
@@ -135,8 +136,8 @@ def list_player():
 
 # Processes
 def search():
-    increase_min_bid_price(0.5)
-    click_search(0.4)
+    increase_min_bid_price(r.uniform(0.2, 0.5))
+    click_search(r.uniform(0.2, 0.5))
 
 def try_to_buy_player(times, min_price, max_price):
     for i in range(0, times):
@@ -153,4 +154,5 @@ def start_search():
     try_to_buy_player(int(number_of_searches), str(min_price),str(max_price))
 
 start_search()
+
 
